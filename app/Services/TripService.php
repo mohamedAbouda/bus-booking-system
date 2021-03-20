@@ -36,7 +36,7 @@ class TripService
 
         //check current bookings counter against bus available seats
         if($trip->bookings->count() > $trip->bus->number_of_seats ){
-            $seats =  $this->getSeatsStatus($data);
+            $seats = $this->getSeatsStatus($data);
         }else{
             $seats = $this->tripRepository->retrieveAvailableTripSeats($data['trip_id']);
         }

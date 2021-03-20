@@ -19,6 +19,11 @@ class TripController extends Controller
     {
         $data = $request->all();
 
+        $validateTripData = $this->tripService->validateTripData($data);
+
+        if($validateTripData){
+            return $this->makeMessageResponse($validateTripData);
+        }
         return $this->makeResponse($this->tripService->getAvailableSeats($data));
     }
 }
