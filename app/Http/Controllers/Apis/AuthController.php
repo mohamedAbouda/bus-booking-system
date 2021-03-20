@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -20,7 +22,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        $token = $user->createToken('Laravel8PassportAuth')->accessToken;
+        $token = $user->createToken('bus_booking_system')->accessToken;
 
         return response()->json(['token' => $token], 200);
     }
@@ -34,12 +36,16 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
-
-        if (auth()->attempt($data)) {
-            $token = auth()->user()->createToken('Laravel8PassportAuth')->accessToken;
-            return response()->json(['token' => $token], 200);
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+                return response()->json(['token'=>$token], 200);
+            } else {
+                return response()->json(['message'=>'Password mismatch'], 422);
+            }
         } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            return response()->json(["message" => 'User does not exist'], 422);
         }
     }
 }
