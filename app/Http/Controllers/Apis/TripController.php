@@ -19,6 +19,7 @@ class TripController extends Controller
     public function getAvailableSeats(CheckSeatsAvailabilityRequest $request)
     {
         $data = $request->all();
+        $data['user_id'] = $request->user()->id;
 
         $validateTripData = $this->tripService->validateTripData($data);
 
@@ -32,6 +33,7 @@ class TripController extends Controller
     public function bookTripSeat(BookTripSeatRequest $request)
     {
         $data = $request->all();
+        $data['user_id'] = $request->user()->id;
 
         return $this->makeMessageResponse($this->tripService->bookTripSeat($data));
     }
