@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'bus'], function () {
-    Route::post('check/available/seats', 'App\Http\Controllers\Apis\TripController@checkAvailableSeats');
+    Route::post('check/available/seats', 'App\Http\Controllers\Apis\TripController@getAvailableSeats');
 });
 
 

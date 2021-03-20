@@ -19,6 +19,12 @@ class CreateTripBookingsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 
+            $table->unsignedBigInteger('trip_id');
+            $table->foreign('trip_id')->references('id')->on('trips')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->unsignedBigInteger('seat_id');
+            $table->foreign('seat_id')->references('id')->on('bus_seats')->onUpdate('cascade')->onDelete('cascade');
+
             $table->unsignedBigInteger('departure_station_id');
             $table->foreign('departure_station_id')->references('id')->on('stations')->onUpdate('cascade')->onDelete('cascade');
 

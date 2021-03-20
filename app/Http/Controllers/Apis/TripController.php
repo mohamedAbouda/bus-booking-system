@@ -15,8 +15,10 @@ class TripController extends Controller
         $this->tripService = new TripService();
     }
 
-    public function checkAvailableSeats(CheckSeatsAvailabilityRequest $request)
+    public function getAvailableSeats(CheckSeatsAvailabilityRequest $request)
     {
-        return $request->all();
+        $data = $request->all();
+
+        return $this->makeResponse($this->tripService->getAvailableSeats($data));
     }
 }

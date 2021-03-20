@@ -26,6 +26,7 @@ class CheckSeatsAvailabilityRequest extends FormRequest
         return [
             'start_station' => ['required', 'exists:stations,id'],
             'end_station' => ['required', 'exists:stations,id'],
+            'trip_id' => ['required', 'exists:trips,id'],
         ];
     }
 }
