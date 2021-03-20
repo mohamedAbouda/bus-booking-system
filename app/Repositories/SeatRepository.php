@@ -8,6 +8,6 @@ class SeatRepository
 {
     public function getSeatsInformation(array $ids)
     {
-        return BusSeat::whereIn('id',$ids)->select('code','window_seat')->get();
+        return BusSeat::whereIn('id',$ids)->select('id','code','window_seat')->get();
     }
 }

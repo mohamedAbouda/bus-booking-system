@@ -49,4 +49,9 @@ class TripRepository
 
         return BusSeat::where('bus_id',$trip->bus_id)->whereNotIn('id',$reservedSeats)->pluck('id')->toArray();
     }
+
+    public function bookSeat($data)
+    {
+        return TripBooking::create($data);
+    }
 }

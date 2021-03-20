@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Apis\BookTripSeatRequest;
 use App\Http\Requests\Apis\CheckSeatsAvailabilityRequest;
 use App\Services\TripService;
 
@@ -24,6 +25,14 @@ class TripController extends Controller
         if($validateTripData){
             return $this->makeMessageResponse($validateTripData);
         }
+
         return $this->makeResponse($this->tripService->getAvailableSeats($data));
+    }
+
+    public function bookTripSeat(BookTripSeatRequest $request)
+    {
+        $data = $request->all();
+
+        return $this->makeMessageResponse($this->tripService->bookTripSeat($data));
     }
 }

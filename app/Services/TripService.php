@@ -16,6 +16,7 @@ class TripService
         $this->seatRepository = new SeatRepository();
     }
 
+    // get available seats
     public function getAvailableSeats(array $data)
     {
         $seatsInformation = [];
@@ -36,17 +37,12 @@ class TripService
 
         //check current bookings counter against bus available seats
         if($trip->bookings->count() > $trip->bus->number_of_seats ){
-            $seats = $this->getSeatsStatus($data);
+            $seats = $this->tripRepository->availableSeatsDuringTheTrip($data['trip_id'], $data['start_station'], $data['end_station']);
         }else{
             $seats = $this->tripRepository->retrieveAvailableTripSeats($data['trip_id']);
         }
 
         return $seats;
-    }
-
-    public function getSeatsStatus(array $data)
-    {
-        return $this->tripRepository->availableSeatsDuringTheTrip($data['trip_id'], $data['start_station'], $data['end_station']);
     }
 
     public function validateTripData(array $data)
@@ -64,5 +60,18 @@ class TripService
         if(!$isStationsInRightOrder){
             return 'Error in trip Route, please make sure you have booked the stations in correct order';
         }
+    }
+
+    public function bookTripSeat($data)
+    {
+        $seatsAvailability = $this->seatsAvailability($data);
+
+        if(!in_array($data['seat_id'], $seatsAvailability)){
+            return 'This Seat is already booked';
+        }
+
+        $bookTrip = $this->tripRepository->bookSeat($data);
+
+        return $bookTrip ? 'Seat Booked successfully' : 'Error while booking your seat';
     }
 }
